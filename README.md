@@ -48,10 +48,14 @@ https://www.cio.com/article/3292983/what-is-a-data-engineer.html
 ## Questions
 
 - [What is the difference between data engineer and data scientist?](#difference)
+- [What is a data pipeline?](#what-is-data-pipeline)
+- [What are the phases in data pipeline](#phases-in-data-pipeline)
+- [What are the different layers in data pipeline](#different-layers)
 - How does a typical data pipeline looks like
 - What steps are available?
 - How to know if a job is completed?
 - How to handle errors?
+- [What are some considerations that needs to be taken when designing a data pipeline](#considerations)
 - How to handle versioning of data?
 - How to improve performance (using binary data such as protobuff/thrift, or maybe parquet)
 - What is Presto, and other alternatives?
@@ -75,11 +79,13 @@ https://www.cio.com/article/3292983/what-is-a-data-engineer.html
     - Text file. CSV, Word, excel etc.
 - How to perform autoscaling? There are times when there are spike requests. This requires the system to be scaled up when that time arrives. Some services might have less usage at midnight, and we need to find ways to scale down the service.
 
-## Phases in data pipeline
-- ingestion: gathering the needed data
-- processing: processing the data to get the result you want
-- storage: this involves storing the end result for fast retrieval
-- access: you will need to enable a tool or user to access the end results of the pipeline
+## <a id='phases-in-data-pipeline'>What are the phases in data pipeline?</a>
+
+- __ingestion__: gathering the needed data
+- __processing__: processing the data to get the result you want
+- __storage__: this involves storing the end result for fast retrieval
+- __access__: you will need to enable a tool or user to access the end results of the pipeline
+
 
 ## <a id='difference'> Difference between data scientist and data engineers</a>
 
@@ -91,6 +97,30 @@ https://www.cio.com/article/3292983/what-is-a-data-engineer.html
 
 References:
 - https://blog.panoply.io/what-is-the-difference-between-a-data-engineer-and-a-data-scientist
+
+## <a id='what-is-data-pipeline'>What is a data pipeline?</a>
+
+A system that captures, organises, and routes data so that it can be used to gain insights. (How does it do that?)
+
+## <a id='different-layers'>What are the different layers of the data pipeline?</a>
+
+- __Authentication__: restricts access to the data set. 
+- __Vault__: holds credentials for secure access to databases/secrets
+- __Configuration data__: deals with the configuration of the preprocessing (?), may contain metadata on what to extract/filter/transform
+- __Data validation__: validation of the schema
+- __Enrichment__: pulls data from other sources to enrich the dataset (convert ids to denormalised data)
+- __Extraction__: Selection of the data required for analytics
+- __Transformation__: Normalizing of values (currency, date time etc)
+- __Cleansing__: Removal of sensitive data, user compliance data, passwords, credit card number etc
+- __Aggregation__: Aggregates the data, a.k.a map reduce
+- __Storage__: stores the processed data in the databases/file storage
+- __Archive__: for audit purposes
+
+## <a id='considerations'>What are the things to consider when designing a data pipeline?</a>
+
+- __Versioning__. Changes in schema (or formatting) on the data will require changes in the script that handles the processing, that would otherwise cause failures in the data pipeline and create data that is incorrect. To detect such changes, always log errors or changes when its made and alert the engineers.
+- __Data validation__. Tricky, wrong validation can cause a lot of damage to the data too. E.g. date formatting that is not explicit, `1-2-1990` can be mistaken as either 1 February 1990 or 2 January 1990.
+- __Cleansing__: Credit card numbers/passwords needs to be masked, sensitive user data needs to be removed
 
 ## Key skills for data engineers
 
@@ -110,3 +140,5 @@ https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007?source=post_page--
 https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying
 https://medium.com/@samson_hu/building-analytics-at-500px-92e9a7005c83
 https://www.alooma.com/blog/what-is-a-data-pipeline
+https://www.jesse-anderson.com/2019/01/the-three-components-of-a-big-data-data-pipeline/
+https://www.dremio.com/what-is-a-data-pipeline/
