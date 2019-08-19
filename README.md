@@ -130,6 +130,57 @@ A system that captures, organises, and routes data so that it can be used to gai
 
 Data modelling Kimball
 
+
+
+## Metadata
+
+From configuration to tasks. We can pull the configuration metadata such as
+- Components: `{“name”: “CopyData”, “type”: “CopyActivity”}`
+- Tasks: copydata_1_20190819_00:00:00
+    - The task will hold the following state:
+        - status
+        - invoked at datetime
+        - attempts
+        - errors
+        - elapsed time
+- API Rate Limiting: We can define the rate limiter configuration for each and every API Endpoints we have, say RateLimiter(10) // 10 requests per seconds. The limits are obtained from the API documentation. 
+
+## Creating reusable transform layers
+
+Transform layers: Create configuration files to define the input, and output. say we have a transformation layer that converts strings to int.
+```python
+def string_to_int(row):
+row[‘age’] = int(row[‘age’])
+return row
+
+def transform(rows):
+for row in rows:
+row = string_to_int(row)
+```
+## How do we measure server efficiency
+- monitoring for failures
+- monitoring for duration (finding slow paths)
+- monitoring cpu/memory usage
+
+## How can we design to handle 1k+ ThirdParty SQL based data sources
+
+## How can we design to handle undefined CSV as a data source?
+- parse and validate the format
+- check the headers
+- convert null values to defaults based on the domain
+
+
+## ETL logging
+- log relevant steps that occur before, during and after the execution of ETL
+- start/end time gives the duration
+- status (started/running/success/failure)
+- errors and exceptions
+- audit information
+- testing and debugging infromation for troubleshooting
+
+## Building a data warehouse
+
+
 ## References
 
 https://multithreaded.stitchfix.com/blog/2016/03/16/engineers-shouldnt-write-etl/
